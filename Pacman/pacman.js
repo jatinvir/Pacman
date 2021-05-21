@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
     ]
 
+    // to hold pictures and grid
     const squares = []
 
     // Legend
@@ -49,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // draw the grid and render it
     function createBoard() {
+        // put everything into squares array
         for (let i = 0; i < layout.length; i++) {
             const square = document.createElement("div")
             grid.appendChild(square)
@@ -68,12 +70,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    // call function
     createBoard()
 
 
     // starting position of pac-man
-    let pacmanCurrentIndex = 490
-
+    let pacmanCurrentIndex = 490;
     squares[pacmanCurrentIndex].classList.add('pac-man')
 
     // move pac-man
@@ -81,23 +83,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
         squares[pacmanCurrentIndex].classList.remove('pac-man')
 
+        // do different actions depending on keycode
         switch (e.keyCode) {
+            // left arrow key
             case 37:
+                //check if position is valid
                 if (pacmanCurrentIndex % width !== 0 && !squares[pacmanCurrentIndex - 1].classList.contains('wall') &&
                     !squares[pacmanCurrentIndex - 1].classList.contains('ghost-lair')) pacmanCurrentIndex -= 1
 
-                // checj if pacman is in the left exit
+                // check if pacman is in the left exit
                 if ((pacmanCurrentIndex - 1) === 363) {
                     pacmanCurrentIndex = 391
                 }
 
                 break
+            // up arrow key
             case 38:
+                //check if position is valid
                 if (pacmanCurrentIndex - width >= 0 && !squares[pacmanCurrentIndex - width].classList.contains('wall') &&
                     !squares[pacmanCurrentIndex - width].classList.contains('ghost-lair'))
                     pacmanCurrentIndex -= width
                 break
+            // right arrow key    
             case 39:
+                //check if position is valid
                 if (pacmanCurrentIndex % width < width - 1 && !squares[pacmanCurrentIndex + 1].classList.contains('wall') &&
                     !squares[pacmanCurrentIndex + 1].classList.contains('ghost-lair'))
                     pacmanCurrentIndex += 1
@@ -109,7 +118,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 break
+            // down arrow key   
             case 40:
+                //check if position is valid
                 if (pacmanCurrentIndex + width < width * width && !squares[pacmanCurrentIndex + width].classList.contains('wall') &&
                     !squares[pacmanCurrentIndex + width].classList.contains('ghost-lair'))
                     pacmanCurrentIndex += width
@@ -151,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // make the ghosts stop appearing aquamarine
+    // make the ghosts stop appearing vulnerable
     function unScareGhosts() {
         ghosts.forEach(ghost => ghost.isScared = false)
     }
@@ -164,6 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
             this.startIndex = startIndex
             this.speed = speed
             this.currentIndex = startIndex
+            // not a number
             this.imterId = NaN
             this.isScared = false
         }
@@ -194,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         ghost.timerId = setInterval(function () {
-            // if next sqaure ghost is going to go in dosent contain a wall and a ghost, you can go there
+            // if next sqaure ghost is going to go in dosent contain a wall and a ghost, you can go 
 
             if (!squares[ghost.currentIndex + direction].classList.contains('wall') && !squares[ghost.currentIndex + direction].classList.contains('ghost')
             ) {
@@ -242,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function checkForWin() {
         if (score === 274) {
             ghost.forEach(ghost => clearInterval(ghost.timerId))
-            codument.removeEventListener('keyup', movePacman)
+            document.removeEventListener('keyup', movePacman)
             scoreDisplay.innerHTML = "You Win"
         }
     }
